@@ -1,0 +1,1830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimo Apartments - Content Calendar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Luxury Minimalist Color Palette */
+            --primary: #2C2C2C;
+            --secondary: #4A4A4A;
+            --accent-gold: #C9A961;
+            --accent-rose: #B8978F;
+            --bg-cream: #F5F3F0;
+            --bg-white: #FFFFFF;
+            --text-dark: #1A1A1A;
+            --text-muted: #6B6B6B;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(201, 169, 97, 0.2);
+            --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 12px 48px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--bg-cream) 0%, #E8E6E3 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Header */
+        .header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 300;
+            color: var(--primary);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .header .subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .header .calendar-info {
+            display: inline-flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(201, 169, 97, 0.1);
+            border-radius: 50px;
+            font-size: 0.813rem;
+            color: var(--text-muted);
+        }
+
+        .calendar-info span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Navigation - Glassmorphism */
+        .nav-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 1rem;
+            position: sticky;
+            top: 130px;
+            z-index: 999;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .week-nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .week-btn {
+            padding: 0.625rem 1.25rem;
+            border: 1px solid var(--glass-border);
+            background: transparent;
+            color: var(--text-dark);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 400;
+            font-size: 0.875rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.5px;
+        }
+
+        .week-btn:hover {
+            background: var(--accent-gold);
+            color: white;
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
+        }
+
+        .week-btn.active {
+            background: var(--accent-gold);
+            color: white;
+            border-color: var(--accent-gold);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Week Section - Glassmorphism */
+        .week-section {
+            margin-bottom: 3rem;
+        }
+
+        .week-header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem 2rem;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .week-header h2 {
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        .week-theme {
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-rose));
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.813rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        /* Day Card - Enhanced Glassmorphism */
+        .day-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            margin-bottom: 1.25rem;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .day-card:hover {
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
+        }
+
+        .day-header {
+            background: linear-gradient(135deg, rgba(44, 44, 44, 0.05), rgba(74, 74, 74, 0.05));
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .day-header:hover {
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.1), rgba(184, 151, 143, 0.1));
+        }
+
+        .day-header h3 {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        .day-info {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .content-count {
+            background: rgba(201, 169, 97, 0.15);
+            padding: 0.375rem 0.875rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            color: var(--text-dark);
+            font-weight: 400;
+        }
+
+        .toggle-icon {
+            font-size: 1.25rem;
+            color: var(--accent-gold);
+            transition: transform 0.3s ease;
+        }
+
+        .day-card.open .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .day-content {
+            display: none;
+            padding: 2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .day-card.open .day-content {
+            display: block;
+        }
+
+        /* Content Piece - Refined */
+        .content-piece {
+            background: var(--bg-white);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 97, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .content-piece:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .content-piece.video {
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        .content-piece.photo {
+            border-left: 3px solid var(--accent-rose);
+        }
+
+        .content-header {
+            background: linear-gradient(135deg, rgba(245, 243, 240, 0.8), rgba(255, 255, 255, 0.8));
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .content-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .content-title h4 {
+            font-size: 0.938rem;
+            font-weight: 400;
+            color: var(--primary);
+        }
+
+        .content-type-badge {
+            padding: 0.375rem 0.875rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-video { 
+            background: linear-gradient(135deg, var(--accent-gold), #D4AF6A);
+            color: white;
+        }
+        
+        .badge-photo { 
+            background: linear-gradient(135deg, var(--accent-rose), #C9A9A1);
+            color: white;
+        }
+
+        .platform-badges {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .platform-badge {
+            padding: 0.375rem 0.875rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 400;
+            background: rgba(44, 44, 44, 0.05);
+            color: var(--text-dark);
+            border: 1px solid rgba(201, 169, 97, 0.2);
+        }
+
+        .content-body {
+            padding: 1.5rem;
+        }
+
+        .content-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(201, 169, 97, 0.2);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            background: linear-gradient(135deg, rgba(245, 243, 240, 0.5), rgba(255, 255, 255, 0.5));
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(201, 169, 97, 0.15);
+        }
+
+        .info-item strong {
+            display: block;
+            color: var(--accent-gold);
+            margin-bottom: 0.375rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        .info-item span {
+            color: var(--text-dark);
+            font-size: 0.875rem;
+        }
+
+        /* Script Box - Minimalist */
+        .script-box {
+            background: var(--primary);
+            color: #E8E6E3;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.813rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            border: 1px solid rgba(201, 169, 97, 0.3);
+        }
+
+        .script-box .scene-header {
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .script-box .dialogue {
+            color: #C9A9A1;
+        }
+
+        .script-box .action {
+            color: #9BC4CB;
+        }
+
+        .script-box .direction {
+            color: #B8A48F;
+            font-style: italic;
+        }
+
+        /* Shooting Brief - Refined */
+        .shooting-brief {
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.08), rgba(184, 151, 143, 0.08));
+            border: 1px solid rgba(201, 169, 97, 0.2);
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .shooting-brief h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 500;
+            font-size: 0.938rem;
+        }
+
+        .shooting-brief ul {
+            margin-left: 1.25rem;
+        }
+
+        .shooting-brief li {
+            margin-bottom: 0.625rem;
+            color: var(--text-dark);
+            font-size: 0.875rem;
+        }
+
+        /* Caption Box - Glass Effect */
+        .caption-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .caption-text {
+            white-space: pre-wrap;
+            font-size: 0.875rem;
+            line-height: 1.7;
+            color: var(--text-dark);
+        }
+
+        .hashtags {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(201, 169, 97, 0.2);
+            color: var(--accent-gold);
+            font-size: 0.813rem;
+        }
+
+        /* Copy Button - Minimalist */
+        .copy-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            background: var(--accent-gold);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: var(--accent-rose);
+        }
+
+        /* Posting Time */
+        .posting-time {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.1), rgba(184, 151, 143, 0.1));
+            color: var(--text-dark);
+            padding: 0.625rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.813rem;
+            margin-top: 1rem;
+            border: 1px solid rgba(201, 169, 97, 0.2);
+        }
+
+        .posting-time::before {
+            content: '⏰';
+        }
+
+        /* Property Info - Bottom Section */
+        .property-info {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-top: 3rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .property-info h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-weight: 400;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .property-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(201, 169, 97, 0.2);
+        }
+
+        .property-card h3 {
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+            font-weight: 400;
+        }
+
+        .property-card p {
+            margin-bottom: 0.75rem;
+            color: var(--text-dark);
+            font-size: 0.875rem;
+        }
+
+        .price-tag {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--accent-gold);
+        }
+
+        /* Back to Top - Minimalist Glass */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 48px;
+            height: 48px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: var(--accent-gold);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.25rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-4px);
+            background: var(--accent-gold);
+            color: white;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .back-to-top.show {
+            display: flex;
+        }
+
+        /* Progress Bar - Minimalist */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            z-index: 9999;
+            background: rgba(201, 169, 97, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-rose));
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.25rem;
+            }
+            
+            .week-nav {
+                gap: 0.5rem;
+            }
+            
+            .week-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.813rem;
+            }
+            
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .script-box {
+                font-size: 0.75rem;
+                padding: 1rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .back-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        /* Smooth Animations */
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(10px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .day-card {
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-cream);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-gold);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-rose);
+        }
+
+        /* Print Styles */
+        @media print {
+            .header, .nav-container, .back-to-top, .progress-container {
+                position: relative;
+            }
+            
+            .day-content {
+                display: block !important;
+            }
+            
+            .copy-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <h1>Ultimo Apartments Abuja</h1>
+        <p class="subtitle">30-Day Content Calendar</p>
+        <div class="calendar-info">
+            <span>📹 30 Videos</span>
+            <span>📸 6 Photos</span>
+            <span>🗓️ 30 Days</span>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="week-nav">
+            <button class="week-btn active" onclick="showWeek('all')">All Weeks</button>
+            <button class="week-btn" onclick="showWeek(1)">Week 1</button>
+            <button class="week-btn" onclick="showWeek(2)">Week 2</button>
+            <button class="week-btn" onclick="showWeek(3)">Week 3</button>
+            <button class="week-btn" onclick="showWeek(4)">Week 4</button>
+            <button class="week-btn" onclick="window.print()">🖨️ Print</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- WEEK 1 -->
+        <section class="week-section" data-week="1">
+            <div class="week-header">
+                <h2>Week 1: Days 1-7</h2>
+                <span class="week-theme">Introduction & Awareness</span>
+            </div>
+
+            <!-- DAY 1 - MONDAY (Video Only) -->
+            <div class="day-card" data-day="1">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 1 - Monday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    
+                    <div class="content-piece video" data-type="video" data-platform="instagram">
+                        <div class="content-header">
+                            <div class="content-title">
+                                <span class="content-type-badge badge-video">Video</span>
+                                <h4>Full Apartment Tour - "Welcome to Ultimo"</h4>
+                            </div>
+                            <div class="platform-badges">
+                                <span class="platform-badge">Instagram Reel</span>
+                            </div>
+                        </div>
+                        <div class="content-body">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <strong>Duration</strong>
+                                    <span>30-40 seconds</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Format</strong>
+                                    <span>Vertical (9:16)</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Style</strong>
+                                    <span>Guided Tour</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Presenter</strong>
+                                    <span>You on camera</span>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h4 class="section-title">Video Script</h4>
+                                <div class="script-box"><span class="scene-header">═══════════════════════════════════════════
+SCENE 1 - HOOK (0-3 seconds)
+═══════════════════════════════════════════</span>
+
+<span class="direction">[Location: Outside apartment door]
+[Camera: Front-facing selfie mode]</span>
+
+<span class="dialogue">SPEAK: "This is what ₦150,000 gets you in Abuja. Let me show you."</span>
+
+<span class="scene-header">═══════════════════════════════════════════
+SCENE 2 - ENTRANCE (3-7 seconds)
+═══════════════════════════════════════════</span>
+
+<span class="action">[Open door dramatically, camera captures living room]</span>
+
+<span class="scene-header">═══════════════════════════════════════════
+SCENE 3 - LIVING ROOM (7-15 seconds)
+═══════════════════════════════════════════</span>
+
+<span class="dialogue">SPEAK: "Spacious living area. Fully air-conditioned."</span>
+
+<span class="action">[Slow pan showing full space, seating, TV, windows]</span>
+
+<span class="scene-header">═══════════════════════════════════════════
+SCENE 4 - KITCHEN (15-20 seconds)
+═══════════════════════════════════════════</span>
+
+<span class="dialogue">SPEAK: "Full kitchen - cook whatever you want"</span>
+
+<span class="action">[Open fridge, show appliances]</span>
+
+<span class="scene-header">═══════════════════════════════════════════
+SCENE 5-7 - BEDROOMS (20-28 seconds)
+═══════════════════════════════════════════</span>
+
+<span class="dialogue">SPEAK: "Master bedroom... Bedroom two... And yes, bedroom THREE"</span>
+
+<span class="action">[Quick reveals of each bedroom]</span>
+
+<span class="scene-header">═══════════════════════════════════════════
+SCENE 8 - PS5 (28-31 seconds)
+═══════════════════════════════════════════</span>
+
+<span class="dialogue">SPEAK: "PS5 included. No extra charge."</span>
+
+<span class="action">[Show console and controller]</span>
+
+<span class="scene-header">═══════════════════════════════════════════
+SCENE 9 - BALCONY (31-38 seconds)
+═══════════════════════════════════════════</span>
+
+<span class="dialogue">SPEAK: "And this balcony with Abuja views..."</span>
+
+<span class="action">[Step onto balcony, show view]</span>
+
+<span class="scene-header">═══════════════════════════════════════════
+SCENE 10 - CLOSER (38-43 seconds)
+═══════════════════════════════════════════</span>
+
+<span class="dialogue">SPEAK: "All of this. ₦150,000 per night. 
+Ultimo Apartments Abuja. DM to book."</span>
+
+<span class="action">TEXT ON SCREEN: "From ₦150,000/night"</span></div>
+                            </div>
+
+                            <div class="content-section">
+                                <h4 class="section-title">Caption</h4>
+                                <div class="caption-box">
+                                    <button class="copy-btn" onclick="copyCaption(this)">Copy</button>
+                                    <div class="caption-text">Full tour of our 3-Bedroom Standard apartment 🏠
+
+Here's what ₦150,000/night gets you at Ultimo:
+
+✓ 3 spacious bedrooms (yes, THREE)
+✓ Large living area with comfy seating
+✓ Full kitchen with all appliances
+✓ PS5 Gaming Console included
+✓ Private balcony with Abuja views
+✓ Free WiFi throughout
+✓ Daily housekeeping
+
+This is what value looks like.
+
+Save this for your next Abuja trip! 📌
+
+DM "TOUR" to book 📩</div>
+                                    <div class="hashtags">#ApartmentTour #UltimoAbuja #AbujaShortlet #RoomTour #ShortletAbuja #AbujaApartment #PropertyTour #NigeriaTravel #VisitAbuja #AbujaHotels</div>
+                                </div>
+                            </div>
+
+                            <div class="posting-time">Post at 6:00 PM WAT</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- DAY 2 - TUESDAY (Video Only) -->
+            <div class="day-card" data-day="2">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 2 - Tuesday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    
+                    <div class="content-piece video" data-type="video" data-platform="instagram">
+                        <div class="content-header">
+                            <div class="content-title">
+                                <span class="content-type-badge badge-video">Video</span>
+                                <h4>POV: You Just Checked Into Ultimo</h4>
+                            </div>
+                            <div class="platform-badges">
+                                <span class="platform-badge">Instagram Reel</span>
+                            </div>
+                        </div>
+                        <div class="content-body">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <strong>Duration</strong>
+                                    <span>20-30 seconds</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Format</strong>
+                                    <span>Vertical (9:16)</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Style</strong>
+                                    <span>POV / First Person</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Vibe</strong>
+                                    <span>Aspirational</span>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h4 class="section-title">Video Script</h4>
+                                <div class="script-box"><span class="scene-header">CONCEPT: First-person perspective of guest arriving</span>
+
+<span class="action">TEXT: "POV: You just arrived at your Abuja shortlet"</span>
+
+<span class="direction">[POV style - walking toward door, opening it]
+[Discovery moments - touching couch, seeing PS5, opening balcony]
+[Building excitement through exploration]</span>
+
+<span class="dialogue">Show natural reactions to discovering each feature</span>
+
+<span class="action">TEXT: "Best decision ever ✓"</span></div>
+                            </div>
+
+                            <div class="content-section">
+                                <h4 class="section-title">Caption</h4>
+                                <div class="caption-box">
+                                    <button class="copy-btn" onclick="copyCaption(this)">Copy</button>
+                                    <div class="caption-text">POV: You finally booked Ultimo and everything hits different 👀✨
+
+This could be you this weekend:
+
+✓ Walking into YOUR 3-bedroom apartment
+✓ Realizing the PS5 is actually included
+✓ Finding your private balcony with views
+✓ That "I made the right choice" feeling
+
+From ₦150,000/night
+
+Tag who you're bringing! 👇
+
+DM to book 📩</div>
+                                    <div class="hashtags">#POV #UltimoAbuja #AbujaShortlet #Staycation #FirstPerson #CheckIn #AbujaVibes #ShortletExperience #AbujaWeekend #VisitAbuja</div>
+                                </div>
+                            </div>
+
+                            <div class="posting-time">Post at 6:00 PM WAT</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- DAY 3 - WEDNESDAY (Video + Photo) -->
+            <div class="day-card" data-day="3">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 3 - Wednesday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video + 1 Photo</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    
+                    <!-- VIDEO -->
+                    <div class="content-piece video" data-type="video" data-platform="instagram">
+                        <div class="content-header">
+                            <div class="content-title">
+                                <span class="content-type-badge badge-video">Video</span>
+                                <h4>What's Actually Included - Amenities Showcase</h4>
+                            </div>
+                            <div class="platform-badges">
+                                <span class="platform-badge">Instagram Reel</span>
+                            </div>
+                        </div>
+                        <div class="content-body">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <strong>Duration</strong>
+                                    <span>25-30 seconds</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Style</strong>
+                                    <span>Feature Showcase</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Message</strong>
+                                    <span>No Hidden Fees</span>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h4 class="section-title">Video Script</h4>
+                                <div class="script-box"><span class="dialogue">HOOK: "So what's ACTUALLY included when you book Ultimo?"</span>
+
+<span class="action">Show each amenity with text overlay:
+- Free WiFi ✓
+- Daily Housekeeping ✓
+- PS5 Included ✓
+- Complete Kitchen ✓
+- Private Balcony ✓</span>
+
+<span class="dialogue">CLOSER: "All this from 150k a night. No hidden fees."</span></div>
+                            </div>
+
+                            <div class="content-section">
+                                <h4 class="section-title">Caption</h4>
+                                <div class="caption-box">
+                                    <button class="copy-btn" onclick="copyCaption(this)">Copy</button>
+                                    <div class="caption-text">What's ACTUALLY included at Ultimo? Everything. 💯
+
+No surprise charges. No "WiFi is extra." No hidden fees.
+
+Your stay includes:
+📶 Free high-speed WiFi
+🧹 Daily housekeeping
+🎮 PS5 Gaming Console
+🍳 Full kitchen access
+🌅 Private balcony
+❄️ Air conditioning
+🛏️ Fresh linens & towels
+
+That's it. Transparent pricing. Honest service.
+
+Save this! 📌
+
+DM "BOOK" to reserve 📩</div>
+                                    <div class="hashtags">#WhatsIncluded #UltimoAbuja #TransparentPricing #NoHiddenFees #AbujaShortlet #ValueForMoney #AllInclusive</div>
+                                </div>
+                            </div>
+
+                            <div class="posting-time">Post at 1:00 PM WAT</div>
+                        </div>
+                    </div>
+
+                    <!-- PHOTO (Weekly) -->
+                    <div class="content-piece photo" data-type="photo" data-platform="instagram">
+                        <div class="content-header">
+                            <div class="content-title">
+                                <span class="content-type-badge badge-photo">Photo</span>
+                                <h4>Living Room Hero Shot</h4>
+                            </div>
+                            <div class="platform-badges">
+                                <span class="platform-badge">Instagram Feed</span>
+                            </div>
+                        </div>
+                        <div class="content-body">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <strong>Subject</strong>
+                                    <span>Living Room</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Orientation</strong>
+                                    <span>Horizontal</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Best Time</strong>
+                                    <span>2:00-4:00 PM</span>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h4 class="section-title">Shooting Brief</h4>
+                                <div class="shooting-brief">
+                                    <h4>Shot Requirements:</h4>
+                                    <ul>
+                                        <li>Wide angle from corner showing full depth</li>
+                                        <li>Afternoon natural light (2-4 PM), curtains open</li>
+                                        <li>Show seating arrangement, TV area, windows</li>
+                                    </ul>
+                                    <h4 style="margin-top: 1rem;">Styling Checklist:</h4>
+                                    <ul>
+                                        <li>☐ Fluff all cushions, arrange symmetrically</li>
+                                        <li>☐ Remove ALL clutter</li>
+                                        <li>☐ Turn on all lights</li>
+                                        <li>☐ Floor clean and visible</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h4 class="section-title">Caption</h4>
+                                <div class="caption-box">
+                                    <button class="copy-btn" onclick="copyCaption(this)">Copy</button>
+                                    <div class="caption-text">Welcome to Ultimo Apartments Abuja 🏠✨
+
+Your premium shortlet experience in Nigeria's capital.
+
+What makes Ultimo different?
+
+🛏️ SPACIOUS 3-BEDROOM DUPLEXES
+🎮 PS5 GAMING CONSOLE INCLUDED
+🌅 PRIVATE BALCONY SEATOUT
+📶 FREE WIFI & DAILY HOUSEKEEPING
+
+PRICING:
+💰 Standard: ₦150,000/night
+💰 Premium: ₦180,000/night
+
+This is shortlet living, reimagined.
+
+📩 DM to book your stay</div>
+                                    <div class="hashtags">#UltimoAbuja #AbujaShortlet #ShortletAbuja #AbujaApartment #LuxuryShortlet #ServicedApartmentAbuja #VisitAbuja</div>
+                                </div>
+                            </div>
+
+                            <div class="posting-time">Post at 1:00 PM WAT</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- DAY 4 - THURSDAY (Video Only) -->
+            <div class="day-card" data-day="4">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 4 - Thursday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    
+                    <div class="content-piece video" data-type="video" data-platform="tiktok">
+                        <div class="content-header">
+                            <div class="content-title">
+                                <span class="content-type-badge badge-video">Video</span>
+                                <h4>Things to Check Before Booking a Shortlet</h4>
+                            </div>
+                            <div class="platform-badges">
+                                <span class="platform-badge">TikTok</span>
+                            </div>
+                        </div>
+                        <div class="content-body">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <strong>Duration</strong>
+                                    <span>15-22 seconds</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Style</strong>
+                                    <span>Educational/Tips</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Tone</strong>
+                                    <span>Helpful Expert</span>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h4 class="section-title">Video Script</h4>
+                                <div class="script-box"><span class="dialogue">HOOK: "Before you book ANY shortlet in Abuja, check these 4 things:"</span>
+
+<span class="action">1. WiFi - Free or extra charge?
+   TEXT: "✓ Free at Ultimo"
+
+2. Housekeeping - Included?
+   TEXT: "✓ Daily at Ultimo"
+
+3. Bedrooms - How many ACTUAL bedrooms?
+   TEXT: "✓ 3 bedrooms at Ultimo"
+
+4. Amenities - What comes free?
+   TEXT: "✓ PS5 + Balcony at Ultimo"</span>
+
+<span class="dialogue">CLOSER: "At Ultimo, we check ALL the boxes 😌"</span></div>
+                            </div>
+
+                            <div class="content-section">
+                                <h4 class="section-title">Caption</h4>
+                                <div class="caption-box">
+                                    <button class="copy-btn" onclick="copyCaption(this)">Copy</button>
+                                    <div class="caption-text">Save this before booking your next shortlet! 📝 Don't get caught lacking</div>
+                                    <div class="hashtags">#ShortletTips #AbujaShortlet #BookingSmart #UltimoAbuja #TravelTips #AbujaTips #fyp #LearnOnTikTok</div>
+                                </div>
+                            </div>
+
+                            <div class="posting-time">Post at 6:30 PM WAT</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- DAY 5 - FRIDAY (Video Only) -->
+            <div class="day-card" data-day="5">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 5 - Friday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    
+                    <div class="content-piece video" data-type="video" data-platform="instagram">
+                        <div class="content-header">
+                            <div class="content-title">
+                                <span class="content-type-badge badge-video">Video</span>
+                                <h4>Standard vs Premium Comparison</h4>
+                            </div>
+                            <div class="platform-badges">
+                                <span class="platform-badge">Instagram Reel</span>
+                            </div>
+                        </div>
+                        <div class="content-body">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <strong>Duration</strong>
+                                    <span>30-40 seconds</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Purpose</strong>
+                                    <span>Help Booking Decision</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Message</strong>
+                                    <span>Both Are Great Value</span>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h4 class="section-title">Video Script</h4>
+                                <div class="script-box"><span class="dialogue">HOOK: "Standard or Premium? Let me break down the real difference."</span>
+
+<span class="action">STANDARD SECTION (₦150,000/night):
+✓ Living room
+✓ Full kitchen
+✓ 3 bedrooms
+✓ PS5 included
+✓ Private balcony
+✓ Free WiFi</span>
+
+<span class="action">PREMIUM SECTION (₦180,000/night):
+ALL of the above PLUS
+✓ Professional Snooker Board
+✓ Soccer Board</span>
+
+<span class="dialogue">CLOSER: "The difference? ₦30,000 for unlimited entertainment. Both are incredible. You decide."</span></div>
+                            </div>
+
+                            <div class="content-section">
+                                <h4 class="section-title">Caption</h4>
+                                <div class="caption-box">
+                                    <button class="copy-btn" onclick="copyCaption(this)">Copy</button>
+                                    <div class="caption-text">Standard or Premium? Here's the REAL difference 🏠
+
+STANDARD | ₦150,000/night:
+✓ 3 spacious bedrooms
+✓ Full living & kitchen
+✓ PS5 Gaming Console
+✓ Private balcony
+✓ Free WiFi & housekeeping
+
+PREMIUM | ₦180,000/night:
+✓ EVERYTHING above
+✓ Professional Snooker Board
+✓ Soccer Board
+
+The difference = ₦30,000 for extra entertainment
+
+Which would YOU choose? Comment! 👇
+
+DM "STANDARD" or "PREMIUM" to book 📩</div>
+                                    <div class="hashtags">#StandardVsPremium #UltimoAbuja #WhichOne #AbujaShortlet #Comparison #ChooseWisely</div>
+                                </div>
+                            </div>
+
+                            <div class="posting-time">Post at 1:00 PM WAT</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- WEEKEND DAYS (Saturday & Sunday) - No posting -->
+            <div class="day-card" data-day="6">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 6 - Saturday</h3>
+                    <div class="day-info">
+                        <span class="content-count">No Posts (Weekend)</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: linear-gradient(135deg, rgba(201, 169, 97, 0.08), rgba(184, 151, 143, 0.08)); border-radius: 12px; text-align: center;">
+                        <h4 style="color: var(--accent-gold); margin-bottom: 1rem;">Weekend Break</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;">No scheduled posts on weekends. Use this time to engage with comments and DMs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-day="7">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 7 - Sunday</h3>
+                    <div class="day-info">
+                        <span class="content-count">No Posts (Weekend)</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: linear-gradient(135deg, rgba(201, 169, 97, 0.08), rgba(184, 151, 143, 0.08)); border-radius: 12px; text-align: center;">
+                        <h4 style="color: var(--accent-gold); margin-bottom: 1rem;">Weekend Break</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;">No scheduled posts on weekends. Focus on customer service and planning for next week.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- WEEK 2 -->
+        <section class="week-section" data-week="2">
+            <div class="week-header">
+                <h2>Week 2: Days 8-14</h2>
+                <span class="week-theme">Trust Building & Features</span>
+            </div>
+
+            <!-- DAY 8 - MONDAY -->
+            <div class="day-card" data-day="8">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 8 - Monday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 8 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 0.5rem;"><strong>Video:</strong> Day in the Life at Ultimo (Instagram Reel)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Theme:</strong> Lifestyle content showing full day experience</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 1rem;"><strong>Post time:</strong> 1:00 PM WAT</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 9 - TUESDAY -->
+            <div class="day-card" data-day="9">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 9 - Tuesday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 9 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 0.5rem;"><strong>Video:</strong> Workcation at Ultimo (TikTok)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Theme:</strong> Target business travelers & remote workers</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 1rem;"><strong>Post time:</strong> 6:30 PM WAT</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 10 - WEDNESDAY (Video + Photo) -->
+            <div class="day-card" data-day="10">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 10 - Wednesday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video + 1 Photo</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 10 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 0.5rem;"><strong>Video:</strong> Customer Appreciation Message (Facebook)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem;"><strong>Photo:</strong> Balcony Lifestyle Shot (Instagram)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Theme:</strong> Community building & feature showcase</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 1rem;"><strong>Post times:</strong> 3:00 PM & 8:00 AM WAT</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 11 - THURSDAY -->
+            <div class="day-card" data-day="11">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 11 - Thursday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 11 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 0.5rem;"><strong>Video:</strong> Long Stay Discount Promotion (Instagram Reel)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Theme:</strong> Extended stay benefits, business travelers</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 1rem;"><strong>Post time:</strong> 6:00 PM WAT</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 12 - FRIDAY -->
+            <div class="day-card" data-day="12">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 12 - Friday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 12 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 0.5rem;"><strong>Video:</strong> Weekend Booking Push (Instagram Reel)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Theme:</strong> Create urgency for weekend bookings</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 1rem;"><strong>Post time:</strong> 11:00 AM WAT</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEKEND -->
+            <div class="day-card" data-day="13">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Days 13-14 - Weekend</h3>
+                    <div class="day-info">
+                        <span class="content-count">No Posts</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: linear-gradient(135deg, rgba(201, 169, 97, 0.08), rgba(184, 151, 143, 0.08)); border-radius: 12px; text-align: center;">
+                        <h4 style="color: var(--accent-gold); margin-bottom: 1rem;">Weekend Break</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;">Saturday & Sunday - No scheduled posts</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- WEEK 3 -->
+        <section class="week-section" data-week="3">
+            <div class="week-header">
+                <h2>Week 3: Days 15-21</h2>
+                <span class="week-theme">Community & Local Authority</span>
+            </div>
+
+            <!-- WEEKDAY SUMMARIES -->
+            <div class="day-card" data-day="15">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 15 - Monday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 15 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Video:</strong> Local Abuja Guide / Nearby Attractions (Instagram Reel)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;"><strong>Theme:</strong> Helpful local content, position as Abuja expert</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-day="16">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 16 - Tuesday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 16 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Video:</strong> Behind the Scenes / Housekeeping Quality (TikTok)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;"><strong>Theme:</strong> Trust building, quality commitment</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-day="17">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 17 - Wednesday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video + 1 Photo</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 17 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Video:</strong> PS5 Gaming Feature (Instagram Reel)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;"><strong>Photo:</strong> Kitchen Lifestyle Shot (Instagram Feed)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-day="18">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 18 - Thursday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 18 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Video:</strong> Cooking in the Apartment (TikTok)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;"><strong>Theme:</strong> Aesthetic cooking content, kitchen showcase</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-day="19">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 19 - Friday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 19 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Video:</strong> Friday Energy / Weekend Hype (Instagram Reel)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;"><strong>Theme:</strong> Weekend excitement, booking urgency</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-day="20">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Days 20-21 - Weekend</h3>
+                    <div class="day-info">
+                        <span class="content-count">No Posts</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: linear-gradient(135deg, rgba(201, 169, 97, 0.08), rgba(184, 151, 143, 0.08)); border-radius: 12px; text-align: center;">
+                        <h4 style="color: var(--accent-gold); margin-bottom: 1rem;">Weekend Break</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;">Saturday & Sunday - No scheduled posts</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- WEEK 4 -->
+        <section class="week-section" data-week="4">
+            <div class="week-header">
+                <h2>Week 4: Days 22-30</h2>
+                <span class="week-theme">Conversion & Momentum</span>
+            </div>
+
+            <!-- WEEKDAY SUMMARIES -->
+            <div class="day-card" data-day="22">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 22 - Monday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 22 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Video:</strong> Business Traveler Focus (Instagram Reel)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;"><strong>Theme:</strong> Corporate bookings, professional travelers</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-day="23">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 23 - Tuesday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 23 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Video:</strong> Guest Testimonial Compilation (TikTok)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;"><strong>Theme:</strong> Social proof, trust building</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-day="24">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 24 - Wednesday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video + 1 Photo</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 24 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Video:</strong> Top 5 Things Guests Love (Instagram Reel)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;"><strong>Photo:</strong> Entertainment Area Feature (Instagram Feed)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-day="25">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 25 - Thursday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 25 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Video:</strong> Game Night Highlights (TikTok)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;"><strong>Theme:</strong> PS5 and Snooker showcase, Premium upsell</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-day="26">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 26 - Friday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 26 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Video:</strong> Last Weekend of Month / Urgency (Instagram Reel)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;"><strong>Theme:</strong> Weekend conversion push, limited availability</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-day="27">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Days 27-28 - Weekend</h3>
+                    <div class="day-info">
+                        <span class="content-count">No Posts</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: linear-gradient(135deg, rgba(201, 169, 97, 0.08), rgba(184, 151, 143, 0.08)); border-radius: 12px; text-align: center;">
+                        <h4 style="color: var(--accent-gold); margin-bottom: 1rem;">Weekend Break</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;">Saturday & Sunday - No scheduled posts</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-day="29">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 29 - Monday</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 29 Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Video:</strong> Month Recap Teaser (TikTok)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;"><strong>Theme:</strong> Gratitude, highlights from the month</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-day="30">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <h3>Day 30 - Tuesday (Final Day)</h3>
+                    <div class="day-info">
+                        <span class="content-count">1 Video + 1 Photo</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Day 30 Final Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 0.5rem;"><strong>Video:</strong> Month Recap - Best Moments (Instagram Reel)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem;"><strong>Photo:</strong> New Month Preview (Instagram Feed)</p>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 1rem;"><strong>Theme:</strong> Celebration, gratitude, forward momentum</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Property Information (Moved to Bottom) -->
+        <section class="property-info">
+            <h2>Property Information - Reference Guide</h2>
+            <div class="property-grid">
+                <div class="property-card">
+                    <h3>3-Bedroom Standard</h3>
+                    <p class="price-tag">₦150,000/night</p>
+                    <p>+ ₦50,000 refundable caution</p>
+                    <ul style="margin-top: 1rem; margin-left: 1.25rem; font-size: 0.875rem;">
+                        <li>3 spacious bedrooms</li>
+                        <li>PS5 Gaming Console</li>
+                        <li>Full kitchen</li>
+                        <li>Private balcony seatout</li>
+                        <li>Free WiFi</li>
+                        <li>Daily housekeeping</li>
+                    </ul>
+                </div>
+                <div class="property-card">
+                    <h3>3-Bedroom Premium</h3>
+                    <p class="price-tag">₦180,000/night</p>
+                    <p>+ ₦50,000 refundable caution</p>
+                    <ul style="margin-top: 1rem; margin-left: 1.25rem; font-size: 0.875rem;">
+                        <li>Everything in Standard PLUS:</li>
+                        <li>Snooker Board</li>
+                        <li>Soccer Board</li>
+                        <li>Enhanced entertainment</li>
+                    </ul>
+                </div>
+                <div class="property-card">
+                    <h3>Key Policies</h3>
+                    <ul style="margin-top: 1rem; margin-left: 1.25rem; font-size: 0.875rem;">
+                        <li>Check-in: 1:00 PM</li>
+                        <li>Check-out: 12:00 PM</li>
+                        <li>Max 6 guests</li>
+                        <li>No pets allowed</li>
+                        <li>No smoking indoors</li>
+                        <li>Payment: Transfer/Card only</li>
+                        <li>50% deposit to reserve</li>
+                        <li>Free cancellation 48hrs+</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</button>
+
+    <script>
+        // Toggle Day Card
+        function toggleDay(header) {
+            const card = header.parentElement;
+            card.classList.toggle('open');
+        }
+
+        // Show specific week
+        function showWeek(week) {
+            const sections = document.querySelectorAll('.week-section');
+            const buttons = document.querySelectorAll('.week-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            sections.forEach(section => {
+                if (week === 'all' || section.dataset.week == week) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        // Copy caption
+        function copyCaption(button) {
+            const captionBox = button.parentElement;
+            const captionText = captionBox.querySelector('.caption-text').textContent;
+            const hashtags = captionBox.querySelector('.hashtags');
+            const fullText = captionText + (hashtags ? '\n\n' + hashtags.textContent : '');
+            
+            navigator.clipboard.writeText(fullText).then(() => {
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Progress bar and back to top
+        window.onscroll = function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+            
+            const backToTop = document.getElementById('backToTop');
+            if (winScroll > 500) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        };
+
+        // Scroll to top
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Open first day by default
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstDay = document.querySelector('.day-card');
+            if (firstDay) {
+                firstDay.classList.add('open');
+            }
+        });
+    </script>
+
+</body>
+</html>
